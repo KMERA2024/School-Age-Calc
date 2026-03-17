@@ -41,10 +41,10 @@ st.markdown("""
         z-index: 100;
     }
     </style>
-    """, unsafe_allow_index=True)
+    """, unsafe_allow_html=True)
 
 st.title("🏫 حاسبة القبول والسن النظامي")
-st.write("<p style='text-align: center; color: #555;'>وزارة التعليم - إدارة الاختبارات والقبول بمكة المكرمة</p>", unsafe_allow_index=True)
+st.write("<p style='text-align: center; color: #555;'>وزارة التعليم - إدارة الاختبارات والقبول بمكة المكرمة</p>", unsafe_allow_html=True)
 
 # تاريخ المرجع
 START_DATE = date(2026, 8, 24)
@@ -90,4 +90,4 @@ if st.button("تحليل الأهلية"):
             st.warning("⚠️ يتجاوز السن النظامي")
 
 # التوقيع
-st.markdown("""<div class="footer">تصميم وتطوير: أ. خالد محمد الحربي © 2026</div>""", unsafe_allow_index=True)
+st.markdown("""<div class="footer">تصميم وتطوير: أ. خالد محمد الحربي © 2026</div>""", unsafe_allow_html=True)
