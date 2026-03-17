@@ -35,8 +35,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# العنوان الرئيسي الجديد
-st.title("🔢 حاسبة العمر والسن النظامي")
+st.title("🔢 حاسبة العمر وتحديد الصف الدراسي")
 
 # تاريخ المرجع لبداية العام الدراسي 2026
 START_DATE = date(2026, 8, 24)
@@ -58,29 +57,70 @@ if calendar_type == "هجري":
 else:
     birth_date_final = st.date_input("تاريخ الميلاد الميلادي:", value=date(2020, 1, 1))
 
-# زر الحساب المحدث
-if st.button("احسب عمر الطالب"):
+# زر الحساب
+if st.button("احسب عمر الطالب وتحديد الصف"):
     if birth_date_final:
         delta = START_DATE - birth_date_final
         years = delta.days // 365
         months = (delta.days % 365) // 30
         
+        # إظهار العمر
         st.markdown(f"""
-            <div style="background-color: #f0f7fa; padding: 20px; border-radius: 10px; border-right: 5px solid #004a99; text-align: right;">
+            <div style="background-color: #f0f7fa; padding: 15px; border-radius: 10px; border-right: 5px solid #004a99; text-align: right; margin-bottom: 20px;">
                 <p style="color: #004a99; font-size: 20px; margin: 0;">عمر الطالب هو: <b>{years} سنة و {months} شهر</b></p>
-                <p style="color: #555; font-size: 14px; margin-top: 10px;">(محسوب حتى تاريخ بداية العام الدراسي 2026/08/24م)</p>
             </div>
         """, unsafe_allow_html=True)
 
-        # رسالة توضيحية بناءً على العمر
-        if years < 5 or (years == 5 and months < 9):
-            st.warning("تنبيه: الطالب دون سن القبول النظامي (أقل من 6 سنوات بـ 90 يوماً)")
-        elif years >= 6:
-            st.success("الطالب ضمن السن النظامي للقبول")
+        # منطق تحديد الصف الدراسي (بناءً على جدول الوزارة)
+        total_months = (years * 12) + months
+        suggested_grade = ""
+        status_color = "info"
 
-# التوقيع في أسفل الصفحة
-st.markdown("""
-    <div class="footer">
-        تصميم وتطوير: أ. خالد محمد الحربي © 2026
-    </div>
-    """, unsafe_allow_html=True)
+        if total_months < 69:
+            suggested_grade = "دون سن القبول النظامي"
+            st.error(f"⚠️ النتيجة: {suggested_grade}")
+        elif 69 <= total_months < 72:
+            suggested_grade = "الأول ابتدائي (بشرط شهادة روضة معتمدة)"
+            st.warning(f"✅ النتيجة: {suggested_grade}")
+        elif 72 <= total_months < 84:
+            suggested_grade = "الصف الأول الابتدائي (مستجد)"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 84 <= total_months < 96:
+            suggested_grade = "الصف الثاني الابتدائي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 96 <= total_months < 108:
+            suggested_grade = "الصف الثالث الابتدائي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 108 <= total_months < 120:
+            suggested_grade = "الصف الرابع الابتدائي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 120 <= total_months < 132:
+            suggested_grade = "الصف الخامس الابتدائي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 132 <= total_months < 144:
+            suggested_grade = "الصف السادس الابتدائي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 144 <= total_months < 156:
+            suggested_grade = "الصف الأول المتوسط"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 156 <= total_months < 168:
+            suggested_grade = "الصف الثاني المتوسط"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 168 <= total_months < 180:
+            suggested_grade = "الصف الثالث المتوسط"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 180 <= total_months < 192:
+            suggested_grade = "الصف الأول الثانوي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 192 <= total_months < 204:
+            suggested_grade = "الصف الثاني الثانوي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        elif 204 <= total_months <= 216:
+            suggested_grade = "الصف الثالث الثانوي"
+            st.success(f"✅ النتيجة: {suggested_grade}")
+        else:
+            suggested_grade = "يتجاوز السن النظامي (يوجه لتعليم الكبار/ليلي)"
+            st.info(f"ℹ️ النتيجة: {suggested_grade}")
+
+# التوقيع
+st.markdown("""<div class="footer">تصميم وتطوير: أ. خالد محمد الحربي © 2026</div>""", unsafe_allow_html=True)
